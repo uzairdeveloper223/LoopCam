@@ -20,8 +20,9 @@ jobs:
       - name: install build dependencies
         run: |
           sudo apt-get update
-          # debhelper and dpkg-dev are all we need to build a clean debian package
-          sudo apt-get install -y dpkg-dev debhelper
+          # added build-essential. github runners are clean environments 
+          # and dpkg-buildpackage strictly checks for it before starting.
+          sudo apt-get install -y build-essential dpkg-dev debhelper
 
       - name: build debian package
         run: |
