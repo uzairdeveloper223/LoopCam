@@ -23,7 +23,7 @@ We believe in making installation as frictionless as possible. LoopCam is packag
 
 Whenever a new version is tagged and pushed to the repository, our GitHub Actions workflow automatically compiles the source code, bundles the desktop entries, icons, and metadata, and generates a clean `.deb` installer.
 
-### Downloading the Latest Release
+## Downloading the Latest Release
 1. Head over to the **[Releases Page](https://github.com/uzairdeveloper223/loopcam/releases)**.
 2. Download the latest `.deb` file (e.g., `loopcam_1.0.0-1_all.deb`).
 3. Install it using your package manager. This ensures all dependencies (like `ffmpeg`, `v4l2loopback`, and `policykit-1`) are automatically fetched and installed.
@@ -34,8 +34,9 @@ cd ~/Downloads
 
 # install the package (apt handles local dependencies automatically)
 sudo apt install ./loopcam_1.0.0-1_all.deb
+```
 
-## Installation (manual)
+### Installation (manual)
 ```bash
 git clone https://github.com/uzairdeveloper223/loopcam.git
 cd loopcam
