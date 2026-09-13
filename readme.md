@@ -7,7 +7,7 @@ LoopCam was built with a simple philosophy: give users the power to route video 
 ## Why LoopCam?
 - **No Fluff**: Just clean, readable code and a distraction-free interface.
 - **Debian Native**: Uses `pkexec` for safe privilege escalation and integrates perfectly with standard Debian desktop environments.
-- **Audio + Video**: Combines virtual webcam creation with advanced PulseAudio routing (originally from RhythmRoute) in one unified app.
+- **Audio + Video**: Combines virtual webcam creation with advanced PulseAudio routing (originally from [RhythmRoute](https://github.com/uzairdeveloper223/RhythmRoute)) in one unified app.
 - **Developer Friendly**: Built by Uzair Mughal. Read the code, fork it, and make it your own.
 
 ## Requirements
