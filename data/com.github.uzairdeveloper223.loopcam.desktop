@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=LoopCam
+Comment=Minimalist virtual camera and audio routing suite
+Exec=loopcam
+Icon=loopcam
+Terminal=false
+Categories=AudioVideo;Video;Utility;
+Keywords=webcam;virtual;obs;audio;microphone;v4l2loopback;

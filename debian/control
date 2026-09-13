@@ -1,0 +1,26 @@
+Source: loopcam
+Section: video
+Priority: optional
+Maintainer: Uzair Mughal <contact@uzair.is-a.dev>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+Homepage: https://uzair.is-a.dev
+Vcs-Git: https://github.com/uzairdeveloper223/loopcam.git
+Vcs-Browser: https://github.com/uzairdeveloper223/loopcam
+
+Package: loopcam
+Architecture: all
+Depends: ${misc:Depends},
+         python3,
+         python3-gi,
+         gir1.2-gtk-3.0,
+         v4l2loopback-dkms | v4l2loopback-utils,
+         pulseaudio-utils,
+         ffmpeg,
+         policykit-1
+Description: Minimalist virtual camera and audio routing suite
+ LoopCam is a native Debian application designed to bridge the gap
+ between your media sources and your communication apps. It allows
+ you to loop local video files, route IP camera streams, and mix
+ desktop audio into a virtual microphone with a distraction-free
+ GTK3 interface.

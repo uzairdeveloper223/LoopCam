@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+# a clean, predictable rules file for building the loopcam debian package.
+# we rely on debhelper to do the heavy lifting.
+
+%:
+	dh $@
+
+# we override the default install step to use our custom Makefile
+# so the files end up exactly where debian expects them to be.
+override_dh_auto_install:
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/loopcam

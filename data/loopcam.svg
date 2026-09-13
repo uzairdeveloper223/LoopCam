@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c3e50" />
+      <stop offset="100%" stop-color="#34495e" />
+    </linearGradient>
+  </defs>
+
+  <rect x="15" y="30" width="70" height="45" rx="6" fill="url(#bodyGrad)" />
+  <circle cx="50" cy="52" r="16" fill="#ecf0f1" />
+  
+
+  <circle cx="50" cy="52" r="10" fill="#2c3e50" />
+  
+
+
+  <circle cx="54" cy="48" r="3" fill="#ffffff" opacity="0.6" />
+
+  <path d="M 28 22 Q 38 12 48 22 T 68 22" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" />
+</svg>

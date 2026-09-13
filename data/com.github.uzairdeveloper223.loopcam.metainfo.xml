@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.github.uzairdeveloper223.loopcam</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>LoopCam</name>
+  <summary>Minimalist virtual camera and audio routing suite</summary>
+
+  <description>
+    <p>
+      LoopCam is a native Debian application designed to bridge the gap between your media sources and your communication apps. 
+      Whether you need to loop a local video file as a webcam, route an IP camera stream into a meeting, or mix your desktop audio 
+      into a virtual microphone, LoopCam handles it with a distraction-free GTK3 interface.
+    </p>
+    <p>
+      Built with a human-centric philosophy, it relies on minimal system dependencies like v4l2loopback and PulseAudio, 
+      ensuring your system remains light and responsive.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">com.github.uzairdeveloper223.loopcam.desktop</launchable>
+  
+  <screenshots>
+    <screenshot type="default">
+      <caption>The main camera routing interface</caption>
+      <image>https://raw.githubusercontent.com/uzairdeveloper223/loopcam/main/assets/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://uzair.is-a.dev</url>
+  <url type="bugtracker">https://github.com/uzairdeveloper223/loopcam/issues</url>
+  
+  <developer_name>Uzair Mughal</developer_name>
+  <update_contact>contact@uzair.is-a.dev</update_contact>
+
+  <content_rating type="oars-1.1" />
+  
+  <releases>
+    <release version="1.0.0" date="2026-09-13">
+      <description>
+        <p>Initial release of LoopCam featuring virtual webcam creation, IP camera piping, and RhythmRoute audio integration.</p>
+      </description>
+    </release>
+  </releases>
+</component>
