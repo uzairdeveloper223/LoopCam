@@ -330,16 +330,29 @@ class LoopCamApp(Gtk.Window):
         mode_grid.set_margin_start(10)
         mode_grid.set_margin_end(10)
         
-        self.radio_separate = Gtk.RadioButton.new_with_label_from_widget(None, "Music Only (Separate) - Friend hears only music")
-        self.radio_mix = Gtk.RadioButton.new_with_label_from_widget(self.radio_separate, "Music + Microphone (Mix) - Friend hears you + music")
-        self.check_hear = Gtk.CheckButton(label="Play music through my speakers too")
-        self.check_hear.set_active(True)
-        
-        mode_grid.attach(self.radio_separate, 0, 0, 1, 1)
-        mode_grid.attach(self.radio_mix, 0, 1, 1, 1)
-        mode_grid.attach(self.check_hear, 0, 2, 1, 1)
+        self.check_rhythmroute = Gtk.CheckButton(label="RhythmRoute - also auto-route Rhythmbox's audio in")
+        self.check_rhythmroute.set_active(True)
+        self.check_rhythmroute.connect("toggled", self.on_rhythmroute_toggled)
+
+        self.radio_separate = Gtk.RadioButton.new_with_label_from_widget(None, "Media Only (Separate) - other person hears only the media/OBS audio")
+        self.radio_mix = Gtk.RadioButton.new_with_label_from_widget(self.radio_separate, "Media + My Microphone (Mix) - other person hears you + media")
+        self.check_hear = Gtk.CheckButton(label="Also play that media through my own speakers")
+        self.check_hear.set_active(False)
+
+        mode_grid.attach(self.check_rhythmroute, 0, 0, 1, 1)
+        mode_grid.attach(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), 0, 1, 1, 1)
+        mode_grid.attach(self.radio_separate, 0, 2, 1, 1)
+        mode_grid.attach(self.radio_mix, 0, 3, 1, 1)
+        mode_grid.attach(self.check_hear, 0, 4, 1, 1)
         mode_frame.add(mode_grid)
         box.pack_start(mode_frame, False, False, 0)
+
+        info_lbl = Gtk.Label(xalign=0)
+        info_lbl.set_markup("<small>Untick RhythmRoute to get a plain Virtual Mic - feed it from OBS "
+                             "(Settings &gt; Audio &gt; Advanced &gt; Monitoring Device -&gt; Virtual_Mic_Sink, "
+                             "then set each source to 'Monitor Only') so it never hits your speakers.</small>")
+        info_lbl.set_line_wrap(True)
+        box.pack_start(info_lbl, False, False, 0)
 
         btn_box = Gtk.Box(spacing=10)
         self.btn_audio_connect = Gtk.Button(label="Setup & Connect")
@@ -354,7 +367,7 @@ class LoopCamApp(Gtk.Window):
         btn_box.pack_start(self.btn_audio_disconnect, True, True, 0)
         box.pack_start(btn_box, False, False, 0)
 
-        rb_frame = Gtk.Frame(label=" Live Rhythmbox Panel ")
+        self.rb_frame = rb_frame = Gtk.Frame(label=" Live Rhythmbox Panel ")
         rb_grid = Gtk.Grid(column_spacing=10, row_spacing=5)
         rb_grid.set_margin_top(10)
         rb_grid.set_margin_bottom(10)
@@ -389,6 +402,7 @@ class LoopCamApp(Gtk.Window):
         rb_grid.attach(ctrl_box, 0, 3, 3, 1)
         rb_frame.add(rb_grid)
         box.pack_start(rb_frame, True, True, 0)
+        rb_frame.set_sensitive(self.check_rhythmroute.get_active())
 
     def is_device_in_use(self, target):
         if self.ffmpeg_proc and self.ffmpeg_proc.poll() is None:
@@ -525,25 +539,42 @@ class LoopCamApp(Gtk.Window):
                 self.btn_vid_play_pause.set_image(Gtk.Image.new_from_icon_name("media-playback-start-symbolic", Gtk.IconSize.BUTTON))
                 self.lbl_vid_status.set_text("Status: Stopped")
 
+    def on_rhythmroute_toggled(self, widget):
+        self.rb_frame.set_sensitive(widget.get_active())
+
     def do_audio_connect(self, widget):
-        if not self.rb.is_running():
-            self.show_message("Notice", "Rhythmbox is not running.\nopen rhythmbox and start playing a track first.")
+        use_rhythmroute = self.check_rhythmroute.get_active()
+
+        if use_rhythmroute and not self.rb.is_running():
+            self.show_message("Notice", "Rhythmbox is not running.\nopen rhythmbox and start playing a track first, or untick RhythmRoute to use a plain virtual mic.")
             return
-            
+
         mix_mode = self.radio_mix.get_active()
         hear_music = self.check_hear.get_active()
-        
+
         success, msg = self.pulse.setup_virtual_mic(mix_mode=mix_mode, hear_music=hear_music)
         if not success:
             self.show_message("Error", msg)
             return
-            
-        success, msg = self.pulse.route_rhythmbox()
-        if not success:
-            self.show_message("Warning", f"{msg}\nplease ensure a track is actively playing, then click setup again.")
-            self.pulse.unload_all()
+
+        if use_rhythmroute:
+            success, msg = self.pulse.route_rhythmbox()
+            if not success:
+                self.show_message("Warning", f"{msg}\nplease ensure a track is actively playing, then click setup again.")
+                self.pulse.unload_all()
+                return
+            self.show_message("Success", "Connected! set your voice/call app's mic input to 'Virtual_Mic_Source'.")
         else:
-            self.show_message("Success", "Connected! set your voice app input to 'Virtual_Mic_Source'.")
+            self.show_message(
+                "Virtual Mic Ready",
+                "Virtual Mic is up.\n\n"
+                "1. set your voice/call app's mic input to 'Virtual_Mic_Source'.\n"
+                "2. in OBS: Settings > Audio > Advanced > Monitoring Device -> 'Virtual_Mic_Sink'.\n"
+                "3. on each source (mic/media) you want the other person to hear, click the "
+                "headphone icon menu -> Audio Monitoring -> 'Monitor Only' (not 'Monitor and Output').\n\n"
+                "That way it only feeds the virtual mic - it will NOT play out your speakers unless "
+                "you also ticked 'Also play that media through my own speakers' above."
+            )
 
     def do_audio_disconnect(self, widget):
         self.pulse.unload_all()
@@ -602,8 +633,7 @@ class LoopCamApp(Gtk.Window):
         dev_lbl = Gtk.Label(label="Uzair Mughal")
         dev_lbl.set_margin_top(5)
         content_area.pack_start(dev_lbl, False, False, 0)
-        
-        ver_lbl = Gtk.Label(label="Version 1.0.0")
+        ver_lbl = Gtk.Label(label="Version 1.0.1")
         ver_lbl.get_style_context().add_class("dim-label")
         content_area.pack_start(ver_lbl, False, False, 0)
         
