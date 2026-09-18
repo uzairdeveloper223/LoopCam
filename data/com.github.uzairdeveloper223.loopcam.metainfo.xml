@@ -36,6 +36,11 @@
   <content_rating type="oars-1.1" />
   
   <releases>
+    <release version="1.0.1" date="2026-09-18">
+      <description>
+        <p>Added a RhythmRoute toggle so a plain Virtual Mic can be set up without requiring Rhythmbox to be running, plus in-app guidance for routing OBS sources (mic/media) into the virtual mic only so audio no longer leaks to your own speakers when monitoring.</p>
+      </description>
+    </release>
     <release version="1.0.0" date="2026-09-13">
       <description>
         <p>Initial release of LoopCam featuring virtual webcam creation, IP camera piping, and RhythmRoute audio integration.</p>

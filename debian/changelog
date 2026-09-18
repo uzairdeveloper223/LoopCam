@@ -1,3 +1,15 @@
+loopcam (1.0.1-1) unstable; urgency=medium
+
+  * Audio tab: added a RhythmRoute toggle so you can set up a plain
+    Virtual Mic without requiring Rhythmbox to be running.
+  * Added in-app guidance for routing OBS sources (mic/media) into the
+    virtual mic only, so audio no longer leaks to your own speakers
+    when using the headphone/monitor icon.
+  * Reworded audio mode labels to be source-agnostic instead of
+    Rhythmbox-specific.
+
+ -- Uzair Mughal <contact@uzair.is-a.dev>  Fri, 18 Sep 2026 12:00:00 +0000
+
 loopcam (1.0.0-1) unstable; urgency=medium
 
   * Initial release of LoopCam.
